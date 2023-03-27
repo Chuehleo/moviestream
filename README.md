@@ -1,6 +1,6 @@
-# Building a Fullstack Netflix Clone with React, NextJS, TailwindCSS & Prisma
+# Moviestream webapp
 
-![image](https://user-images.githubusercontent.com/23248726/220005380-ede4fb14-0b8d-4582-a063-3cc4beeccfb7.png)
+![image](https://user-images.githubusercontent.com/122568562/227843258-2ae69728-4f6c-47fc-9456-d0c73791c302.png)
 
 This is a moviestream webapp using React, NextJS, TailwindCSS & Prisma.
 
