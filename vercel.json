@@ -1,16 +1,16 @@
 {
   "functions": {
     "api/auth/callback/credentials": {
-      "maxDuration": 10
+      "maxDuration": 60
     },
     "api/auth/callback/google": {
-      "maxDuration": 10
+      "maxDuration": 60
     },
      "api/auth/callback/github": {
-      "maxDuration": 10
+      "maxDuration": 60
     },
      "api/auth/callback/line": {
-      "maxDuration": 10
+      "maxDuration": 60
     }
   }
 }
