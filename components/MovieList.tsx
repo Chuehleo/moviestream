@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { isEmpty } from 'lodash';
 import styled from 'styled-components';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
@@ -11,15 +11,9 @@ import MovieCard from './MovieCard';
     }
 
     const MovieList: React.FC<MovieListProps> = ({ data, title }) => {
-        if (isEmpty(data)) {
-            return null;
-        }
-
         const listRef = useRef<HTMLDivElement>(null);
         const [sliderPosition, setSliderPosition] = useState(0);
         const [showControls, setShowControls] = useState(false);
-        const [dragStartX, setDragStartX] = useState(0);
-        const [isDragging, setIsDragging] = useState(false);
       
         const handleDirection = (direction: 'left' | 'right') => {
           const listElement = listRef.current;
@@ -47,69 +41,12 @@ import MovieCard from './MovieCard';
             setSliderPosition(newSliderPosition);
           }
         };
-      
-        const handleDragStart = (event: React.MouseEvent<HTMLDivElement>) => {
-            setDragStartX(event.clientX);
-            setIsDragging(true);
-          };
-        
-          const handleDragEnd = () => {
-            setIsDragging(false);
-          };
-        
-          const handleDragMove = (event: React.MouseEvent<HTMLDivElement>) => {
-            if (isDragging) {
-              const dragDistance = event.clientX - dragStartX;
-              const slideWidth = 100 / data.length;
-              const threshold = slideWidth / 3;
-        
-              if (Math.abs(dragDistance) > threshold) {
-                const direction = dragDistance > 0 ? 'right' : 'left';
-                handleDirection(direction);
-                setDragStartX(event.clientX);
-              }
-            }
-          };
-        
-          useEffect(() => {
-            const listElement = listRef.current;
-        
-            if (listElement) {
-              const handleTouchStart = (event: TouchEvent) => {
-                setDragStartX(event.touches[0].clientX);
-                setIsDragging(true);
-              };
-        
-              const handleTouchEnd = () => {
-                setIsDragging(false);
-              };
-        
-              const handleTouchMove = (event: TouchEvent) => {
-                if (isDragging) {
-                  const dragDistance = event.touches[0].clientX - dragStartX;
-                  const slideWidth = 100 / data.length;
-                  const threshold = slideWidth / 3;
-        
-                  if (Math.abs(dragDistance) > threshold) {
-                    const direction = dragDistance > 0 ? 'right' : 'left';
-                    handleDirection(direction);
-                    setDragStartX(event.touches[0].clientX);
-                  }
-                }
-              };
-        
-              listElement.addEventListener('touchstart', handleTouchStart);
-              listElement.addEventListener('touchend', handleTouchEnd);
-              listElement.addEventListener('touchmove', handleTouchMove);
-        
-              return () => {
-                listElement.removeEventListener('touchstart', handleTouchStart);
-                listElement.removeEventListener('touchend', handleTouchEnd);
-                listElement.removeEventListener('touchmove', handleTouchMove);
-              };
-            }
-          }, [data.length, dragStartX, handleDirection, isDragging]);
 
+        if (isEmpty(data)) {
+          return null;
+      }
+    
+      
   return (
     <Container
       className="px-4 md:px-12 mt-8 space-y-8"
@@ -121,13 +58,7 @@ import MovieCard from './MovieCard';
         <p className="text-white text-md md:text-xl lg:text-2xl font-semibold mb-4">
           &nbsp;&nbsp;{title}
         </p>
-        <div
-          className="wrapper"
-          onMouseDown={handleDragStart}
-          onMouseUp={handleDragEnd}
-          onMouseMove={handleDragMove}
-          style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
-          >
+        <div className="wrapper">
           <div
             className={`slider-action left ${
               !showControls ? 'none' : ''
