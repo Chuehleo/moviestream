@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { NextPageContext } from "next"
 import { getSession } from "next-auth/react"
 
@@ -29,15 +30,22 @@ export default function Home() {
   const { data: movies = [] } = useMovieList();
   const { data: favorites = [] } = useFavorites();
   const { isOpen, closeModal } = useInfoModal();
-  
+  const favoriteSectionRef = useRef<HTMLDivElement>(null);
+  const favoriteOnClick = () => {
+    if (favoriteSectionRef.current) {
+      favoriteSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
     <>
       <InfoModal visible={isOpen} onClose={closeModal} />
-      <Navbar />
+      <Navbar favoriteOnClick={favoriteOnClick} />
       <Billboard />
       <div className="pb-40">
         <MovieList title="Trending Now" data={movies} />
-        <MovieList title="Favorites" data={favorites} />
+        <div ref={favoriteSectionRef}>
+          <MovieList title="Favorites" data={favorites} />
+        </div>
       </div>
     </>
   )
