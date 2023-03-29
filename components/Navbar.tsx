@@ -1,15 +1,19 @@
 import { useCallback, useState, useEffect} from 'react';
+import Link from 'next/link';
 import NavbarItem from "./NavbarItem";
 import MobileMenu from "./MobileMenu";
 import AccountMenu from './AccountMenu';
 import { useRouter } from 'next/router';
 import useSearch from '@/hooks/useSearch';
 
+interface NavbarProps {
+    favoriteOnClick: () => void;
+  }
 const TOP_OFFSET = 66;
 
 import { BsChevronDown, BsSearch, BsBell} from 'react-icons/bs';
 
-const Navbar = () => {
+const Navbar: React.FC<NavbarProps> = ({ favoriteOnClick }) => {
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [showAccountMenu, setShowAccountMenu] = useState(false);
     const [showBackground, setShowBackground] = useState(false);
@@ -48,7 +52,12 @@ const Navbar = () => {
         setShowAccountMenu((current) => !current)
     }, []);
 
-
+    const handleHomeClick = () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      };
     
 
     return (
@@ -65,11 +74,11 @@ const Navbar = () => {
               lg:flex
               "
             >
-                <NavbarItem label="Home" />
+          <Link href="/" passHref>
+            <NavbarItem label="Home" onClick={handleHomeClick}/>
+          </Link>
                 <NavbarItem label="Series" />
-                <NavbarItem label="Films" />
-                <NavbarItem label="New & Popular" />
-                <NavbarItem label="Favorites" />
+                <NavbarItem label="Favorites" onClick={favoriteOnClick}/>
                 <NavbarItem label="Browse by languages" />
             </div>
             <div onClick={toggleMobileMenu} className="lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative">
@@ -124,5 +133,7 @@ const Navbar = () => {
 }
 
 export default Navbar;
+
+
 
 
